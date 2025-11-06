@@ -108,11 +108,13 @@ void Addition(char file[]){
 void AllData(char file[STRING_SIZE]){
   /*File=open(file,"r")
     FTXT=File.read()
-    File.close()*/
+    File.close()*/ // python
   FILE *File;
   File=fopen(file,"r");
-  if (!File){return;}
-  //i,CuName,NameAr,ScoreAr=0,"",[],[]
+  if (!File){
+    fprintf(stderr,"ERROR: File %s not found.\n",file);
+    return;}
+  //i,CuName,NameAr,ScoreAr=0,"",[],[] // python
   char i=fgetc(File); // `i` will be the current character being read from the file.
   while (!isprint(i)){
     if (i==EOF){return;}
@@ -125,9 +127,9 @@ void AllData(char file[STRING_SIZE]){
   struct StringArr *LastName=&NameAr;
   struct ByteArr *LastScore=&ScoreAr;
   /*while i<len(FTXT):
-        if"0"!=FTXT[i]and"1"!=FTXT[i]:*/
+        if"0"!=FTXT[i]and"1"!=FTXT[i]:*/ // python
   while (i!=EOF){
-    printf("%c",i);
+    //printf("%u",i); // debug print
     if ('0'!=i && '1'!=i){
       // If `i` isn't 0 or 1, append it to the end of `CuName`.
       char *end=strchr(CuName,'\0'); // Get a pointer for the end of `CuName`
@@ -139,18 +141,21 @@ void AllData(char file[STRING_SIZE]){
                 if FTXT[i]=="1":ScoreAr[NameAr.index(CuName)][0]+=1
                 else:ScoreAr[NameAr.index(CuName)][1]+=1
                 i+=1
-            CuName=""*/
+            CuName=""*/ // python
     else{
       unsigned int index=inStArr(&NameAr,CuName);
       if (!index){
-        index--;
         struct StringArr newName=StrArrInit;
         strcpy(newName.Stri,CuName);
         LastName->next=&newName;
         LastName=&newName;
         struct ByteArr newScore=ByteArrInit;
         LastScore->next=&newScore;
-        LastScore=&newScore;}
+        LastScore=&newScore;
+        index=inStArr(&NameAr,CuName);
+        if (!index){
+          fprintf(stderr,"ERROR reading %s from file.\n",CuName);
+          return;}}
       if (i=='1'){scoreFromIndex(&ScoreAr,index)->byte[0]++;}
       else if (i=='0'){scoreFromIndex(&ScoreAr,index)->byte[1]++;}
       else{
@@ -160,10 +165,13 @@ void AllData(char file[STRING_SIZE]){
     i=fgetc(File);}
   fclose(File);
     //for i in range(len(NameAr)):print(NameAr[i]+" got "+str(ScoreAr[i][0])+" correct and "+str(ScoreAr[i][1])+" wrong, which is "+str((ScoreAr[i][0]/(ScoreAr[i][0]+ScoreAr[i][1]))*100)+"% of questions correct.")
-  struct StringArr *CuNameAr=&NameAr;
-  struct ByteArr *CuScoreAr=&ScoreAr;
+  struct StringArr *CuNameAr=NameAr.next;
+  struct ByteArr *CuScoreAr=ScoreAr.next;
   while (CuNameAr!=NULL){
-    fprintf(stderr,"First character of name is %u. Full name is %s.\n",CuNameAr->Stri[0],CuNameAr->Stri);
+    if (CuNameAr==CuNameAr->next){
+      fprintf(stderr,"ERROR: Linked list element linking itself. Infinate loop.\n");
+      return;}
+    //fprintf(stderr,"First character of name is %u. Full name is %s.\n",CuNameAr->Stri[0],CuNameAr->Stri); // Debug print.
     printf("%s got %u correct and %u wrong, which is %lf%% of questions correct.\n",CuNameAr->Stri,CuScoreAr->byte[0],CuScoreAr->byte[1],(CuScoreAr->byte[0]/(CuScoreAr->byte[0]+CuScoreAr->byte[1]+0.0))*100);
     CuNameAr=CuNameAr->next;
     CuScoreAr=CuScoreAr->next;
