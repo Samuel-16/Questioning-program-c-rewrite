@@ -11,5 +11,5 @@ A line of shell script has been included named `export.sh` to compile the C prog
 # Querks of C learned
 
 - A 'char' is simply a one byte integer. Utf-8 used multiple bytes for non ascii characters, so characters like `'ア'` would actually take up multiple characters.
-- Structs cannot be given default values. A constant to be used to initalise them.
+- Structs cannot be given default values. A constant needs to be used to initalise them.
 - Unlike arrays, structs can be passed by value.
