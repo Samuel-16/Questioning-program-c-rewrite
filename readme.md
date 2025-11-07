@@ -13,3 +13,10 @@ A line of shell script has been included named `export.sh` to compile the C prog
 - A 'char' is simply a one byte integer. Utf-8 used multiple bytes for non ASCII characters, so characters like `'ア'` would actually take up multiple 'characters'.
 - Structs cannot be given default values. A constant needs to be used to initialise them.
 - Unlike arrays, structs can be passed by value.
+- Arrays can only assigned to array variables when the array is declared. Other functions need to be used to modify an already declared array unless you go one element at a time.
+- You cannot do `char nameString[255]=""`. Initialising an array with a value only allocates the space needed for that value.
+- Mixing `scanf` and `fgets` causes issues, as `scanf` leaves the newline character in stdin and causes `fgets` to immediately receive an empty string.
+
+# Issues
+
+- An issue from the original program is that it writes to the output file as it takes an answer to each individual question, meaning that the file becomes invalid if the program is terminated while midway through questioning. For the time being, this issue has been ported.
