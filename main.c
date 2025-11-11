@@ -71,8 +71,9 @@ void Addition(char file[]){
   /*Name=input("What is your name: ")
     while"0"in Name or"1"in Name or Name=="":Name=input("INVALID. Try again: ")
     File.write(Name)*/
-  getchar(); // Clean the input stream.
+  //getchar(); // Clean the input stream. // Unnecessary after changing `scanf` to fgets`
   char Name[STRING_SIZE];
+  char Answer[STRING_SIZE];
   printf("What is your name: ");
   fgets(Name,STRING_SIZE,stdin);
   printf("\n");
@@ -92,8 +93,9 @@ void Addition(char file[]){
     printf("What is %u+%u? ",No1,No2);
     //while len(Guess)>2 or len(Guess)==0 or 0 in (j in "0123456789" for j in Guess):Guess=input("Invalid. What is "+str(No1)+"+"+str(No2)+"?")
     // <Simplifying for the time being>
+    fgets(Answer,STRING_SIZE,stdin);
     unsigned short int Guess;
-    scanf("%hu", &Guess);
+    sscanf(Answer,"%hu", &Guess);
     // R[i]="1"if str(No1+No2)==Guess else"0"
     if (Guess==No1+No2){strcpy(R[i],"1");}
     else {strcpy(R[i],"0");}
@@ -230,8 +232,10 @@ int main(int argc, char *argv[]){
   srand(time(NULL));  // seed with current time
   //while 1:Menu(Func=[Addition,AllData,SomeData,quit,ChangeFile],Arg=[file,file,file],INP="Enter: 0 to take the test, 1 to view all scores, 2 to view specific scores, 3 to quit, or 4 to change the source file")
   while (true){
-    printf("Enter: 0 to take the test, 1 to view all scores, 2 to view specific scores, 3 to quit, or 4 to change the source file: ")
-;   scanf("%c", &Command)
+    char input[STRING_SIZE]
+;   printf("Enter: 0 to take the test, 1 to view all scores, 2 to view specific scores, 3 to quit, or 4 to change the source file: ")
+;   fgets(input, STRING_SIZE, stdin)
+;   Command=input[0]
 //;   printf("\n")
 ;   switch (Command){
       case '0':
