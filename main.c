@@ -196,7 +196,28 @@ void AllData(char file[STRING_SIZE]){
     free(oldName);
     free(oldScore);
     }}}
-    
+
+void SomeData(char file[STRING_SIZE]){
+  // Similar to all data, but only needs to look through the data of one user.
+  FILE *File;
+  File=fopen(file,"r");
+  if (!File){
+    fprintf(stderr,"ERROR: File %s not found.\n",file);
+    return;}
+  // i,CuName,ReqName,ScoreAr=0,"",input("Who would you like to search for? "),[0,0] // python
+  char ReqName[STRING_SIZE];
+  printf("Who would you like to search for? ");
+  fgets(ReqName,STRING_SIZE,stdin);
+  char i=fgetc(File); // `i` will be the current character being read from the file.
+  unsigned char j=0; // `j` will count the correct number of digits.
+  while (!isprint(i)){
+    if (i==EOF){return;}
+    else{i=fgetc(File);}}
+  char CuName[STRING_SIZE];
+  CuName[0]='\0';
+
+}
+
 int selfTest(){
   int exit=0;
   if (!invalidName("")){
