@@ -155,7 +155,9 @@ void AllData(char file[STRING_SIZE]){
         struct ByteArr *newScore=LastScore;
         if (!firstName){
           newName=(struct StringArr *)malloc(sizeof(struct StringArr));
+          *newName=StrArrInit;
           newScore=(struct ByteArr *)malloc(sizeof(struct ByteArr));
+          *newScore=ByteArrInit;
         }
         strcpy(newName->Stri,CuName);
         if (!firstName){
@@ -167,8 +169,8 @@ void AllData(char file[STRING_SIZE]){
         if (!index){
           fprintf(stderr,"ERROR reading %s from file.\n",CuName);
           return;}}
-      if (i=='1'){scoreFromIndex(&ScoreAr,index)->byte[0]++;}
-      else if (i=='0'){scoreFromIndex(&ScoreAr,index)->byte[1]++;}
+      if (i=='1'){scoreFromIndex(&ScoreAr,index-1)->byte[0]++;}
+      else if (i=='0'){scoreFromIndex(&ScoreAr,index-1)->byte[1]++;}
       else{
         fprintf(stderr,"ERROR reading file \"%s\".\nExpecting '0' or '1', but got '%c' instead.\n",file,i);
         return;}
