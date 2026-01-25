@@ -77,7 +77,6 @@ void Addition(char file[]){
   printf("What is your name: ");
   fgets(Name,STRING_SIZE,stdin);
   printf("\n");
-  //sanitise(Name);
   while (sanitise(Name)){ // `sanitise` runs invalidName(Name) while fixing `Name`, so it can go directly in the if.
     printf("INVALID. Try again: ");
     fgets(Name,STRING_SIZE,stdin);
@@ -133,14 +132,15 @@ void AllData(char file[STRING_SIZE]){
   /*while i<len(FTXT):
         if"0"!=FTXT[i]and"1"!=FTXT[i]:*/ // python
   while (i!=EOF){
-    //printf("%u",i); // debug print
     if ('0'!=i && '1'!=i){
       if (j!=0 && j<5){fprintf(stderr,"ERROR: `j` exceeded 0 while parsing a name.\nMaybe the file is invalid?");}
       if (NameAr.Stri[0]!='\0'){firstName=false;}
       // If `i` isn't 0 or 1, append it to the end of `CuName`.
       char *end=strchr(CuName,'\0'); // Get a pointer for the end of `CuName`
       *end=i // Set it to `i`.
-;     *(end+1)='\0';/*Put a NULL terminator at the next position.*/}
+;     *(end+1)='\0'; // Put a NULL terminator at the next position.
+    }
+
 /*  else:
             if not CuName in NameAr:NameAr.append(CuName),ScoreAr.append([0,0])
             for j in range(5):
@@ -198,7 +198,70 @@ void AllData(char file[STRING_SIZE]){
     free(oldName);
     free(oldScore);
     }}}
-    
+
+void SomeData(char file[STRING_SIZE]){
+  // Similar to all data, but only needs to look through the data of one user.
+  FILE *File;
+  File=fopen(file,"r");
+  if (!File){
+    fprintf(stderr,"ERROR: File %s not found.\n",file);
+    return;}
+  // i,CuName,ReqName,ScoreAr=0,"",input("Who would you like to search for? "),[0,0] // python
+  char ReqName[STRING_SIZE];
+  printf("Who would you like to search for? ");
+  fgets(ReqName,STRING_SIZE,stdin);
+  while (sanitise(ReqName)){ // `sanitise` runs invalidName(Name) while fixing `Name`, so it can go directly in the if.
+    printf("INVALID. Try again: ");
+    fgets(ReqName,STRING_SIZE,stdin);
+    printf("\n");}
+  char i=fgetc(File); // `i` will be the current character being read from the file.
+  unsigned char j=0; // `j` will count the correct number of digits.
+  while (!isprint(i)){
+    if (i==EOF){return;}
+    else{i=fgetc(File);}}
+  char CuName[STRING_SIZE];
+  CuName[0]='\0';
+  unsigned short right=0;
+  unsigned short wrong=0;
+  while (i!=EOF){
+    if ('0'!=i && '1'!=i){
+      if (j!=0 && j<5){fprintf(stderr,"ERROR: `j` exceeded 0 while parsing a name.\nMaybe the file is invalid?");}
+      // If `i` isn't 0 or 1, append it to the end of `CuName`.
+      char *end=strchr(CuName,'\0'); // Get a pointer for the end of `CuName`
+      *end=i // Set it to `i`.
+;     *(end+1)='\0';/*Put a NULL terminator at the next position.*/}
+
+/*  else:
+            if CuName==ReqName:
+                for j in range(5):
+                    if FTXT[i]=="1":ScoreAr[0]+=1
+                    else:ScoreAr[1]+=1
+                    i+=1
+            else:i+=5*/ // python
+    else{
+      if (strcmp(ReqName,CuName)==0){
+        if (i=='1'){right++;}
+        else if (i=='0'){wrong++;}
+      j++;
+      if (j>5){fprintf(stderr,"ERROR: `j` exceeded 5.");}
+      if (j==5){
+        CuName[0]='\0';
+        j=0;}}
+      else{
+        CuName[0]='\0';
+        fseek(File, 4, SEEK_CUR);}
+    }
+  i=fgetc(File);}
+  fclose(File);
+  if(right+wrong){
+    printf("%s got %u correct and %u wrong, which is %lf%% of questions correct.\n",ReqName,right,wrong,(right/(right+wrong+0.0))*100);
+  }
+  else{
+    printf("%s not found. Be aware that this program is case/punctuation sensitive.\n",ReqName);
+  }
+
+}
+
 int selfTest(){
   int exit=0;
   if (!invalidName("")){
@@ -265,6 +328,7 @@ int main(int argc, char *argv[]){
         AllData(file);
         break;
       case '2':
+        SomeData(file);
         break;
       case '3':
         return 0;
