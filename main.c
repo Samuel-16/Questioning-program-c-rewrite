@@ -68,6 +68,9 @@ void Addition(char file[]){
   //File=open(file,"a")
   FILE *File;
   File=fopen(file,"a");
+  if (!File){
+    fprintf(stderr,"ERROR: File %s could not be created.\n",file);
+    return;}
   /*Name=input("What is your name: ")
     while"0"in Name or"1"in Name or Name=="":Name=input("INVALID. Try again: ")
     File.write(Name)*/
@@ -310,8 +313,7 @@ int main(int argc, char *argv[]){
   assert(!selfTest());
   // <Setting things up>
   char Command;
-  char file[STRING_SIZE];
-  strcpy(file,"RESULTS");
+  char file[1024]="RESULTS";
   srand(time(NULL));  // seed with current time
   //while 1:Menu(Func=[Addition,AllData,SomeData,quit,ChangeFile],Arg=[file,file,file],INP="Enter: 0 to take the test, 1 to view all scores, 2 to view specific scores, 3 to quit, or 4 to change the source file")
   while (true){
@@ -319,7 +321,6 @@ int main(int argc, char *argv[]){
 ;   printf("Enter: 0 to take the test, 1 to view all scores, 2 to view specific scores, 3 to quit, or 4 to change the source file: ")
 ;   fgets(input, STRING_SIZE, stdin)
 ;   Command=input[0]
-//;   printf("\n")
 ;   switch (Command){
       case '0':
         Addition(file);
@@ -334,7 +335,9 @@ int main(int argc, char *argv[]){
         return 0;
         break;
       case '4':
-        break;}
+        ;printf("Enter filename: ")
+        ;fgets(file, 1024, stdin)
+        ;break;}
     };}
 
 
