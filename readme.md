@@ -14,7 +14,7 @@ A line of shell script has been included named `export.sh` to compile the C prog
 - Structs cannot be given default values. A constant needs to be used to initialise them.
 - Unlike arrays, structs can be passed by value.
 - Arrays can only assigned to array variables when the array is declared. Other functions need to be used to modify an already declared array unless you go one element at a time.
-- ~~You cannot do `char nameString[255]=""`. Initialising an array with a value only allocates the space needed for that value.~~ This is incorrect. Arrays can actually be allocated a larger space than their initial value. I likely misunderstood an error.
+- ~~You cannot do `char nameString[255]=""`. Initialising an array with a value only allocates the space needed for that value.~~ This is incorrect. Arrays can actually be allocated a larger space than their initial value. I misunderstood an error. You can initialise an array this way with a magic number, but not a const.
 - Mixing `scanf` and `fgets` causes issues, as `scanf` leaves the newline character in stdin and causes `fgets` to immediately receive an empty string.
 
 # Issues
