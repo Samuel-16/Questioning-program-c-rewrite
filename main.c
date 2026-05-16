@@ -78,11 +78,11 @@ void Addition(char file[]){
   char Name[STRING_SIZE];
   char Answer[STRING_SIZE];
   printf("What is your name: ");
-  fgets(Name,STRING_SIZE,stdin);
+  if (fgets(Name,STRING_SIZE,stdin)==NULL)   {fprintf(stderr,"Error reading input.\n");Name[0]='\0';}
   printf("\n");
   while (sanitise(Name)){ // `sanitise` runs invalidName(Name) while fixing `Name`, so it can go directly in the if.
     printf("INVALID. Try again: ");
-    fgets(Name,STRING_SIZE,stdin);
+    if (fgets(Name,STRING_SIZE,stdin)==NULL)   {fprintf(stderr,"Error reading input.\n");Name[0]='\0';}
     printf("\n");}
   fprintf(File,"%s",Name);
   //for i in range(5):
@@ -95,7 +95,7 @@ void Addition(char file[]){
     printf("What is %u+%u? ",No1,No2);
     //while len(Guess)>2 or len(Guess)==0 or 0 in (j in "0123456789" for j in Guess):Guess=input("Invalid. What is "+str(No1)+"+"+str(No2)+"?")
     // <Simplifying for the time being>
-    fgets(Answer,STRING_SIZE,stdin);
+    if (fgets(Answer,STRING_SIZE,stdin)==NULL)   {fprintf(stderr,"Error reading input.\n");Name[0]='\0';}
     unsigned short int Guess;
     sscanf(Answer,"%hu", &Guess);
     // R[i]="1"if str(No1+No2)==Guess else"0"
@@ -136,7 +136,7 @@ void AllData(char file[STRING_SIZE]){
         if"0"!=FTXT[i]and"1"!=FTXT[i]:*/ // python
   while (i!=EOF){
     if ('0'!=i && '1'!=i){
-      if (j!=0 && j<5){fprintf(stderr,"ERROR: `j` exceeded 0 while parsing a name.\nMaybe the file is invalid?");}
+      if (j!=0 && j<5){fprintf(stderr,"ERROR: `j` exceeded 0 while parsing a name.\nMaybe the file is invalid?\n");}
       if (NameAr.Stri[0]!='\0'){firstName=false;}
       // If `i` isn't 0 or 1, append it to the end of `CuName`.
       char *end=strchr(CuName,'\0'); // Get a pointer for the end of `CuName`
@@ -178,7 +178,7 @@ void AllData(char file[STRING_SIZE]){
         fprintf(stderr,"ERROR reading file \"%s\".\nExpecting '0' or '1', but got '%c' instead.\n",file,i);
         return;}
       j++;
-      if (j>5){fprintf(stderr,"ERROR: `j` exceeded 5.");}
+      if (j>5){fprintf(stderr,"ERROR: `j` exceeded 5.\n");}
       if (j==5){
         CuName[0]='\0';
         j=0;}}
@@ -212,10 +212,10 @@ void SomeData(char file[STRING_SIZE]){
   // i,CuName,ReqName,ScoreAr=0,"",input("Who would you like to search for? "),[0,0] // python
   char ReqName[STRING_SIZE];
   printf("Who would you like to search for? ");
-  fgets(ReqName,STRING_SIZE,stdin);
+  if(fgets(ReqName,STRING_SIZE,stdin)==NULL)   {fprintf(stderr,"Error reading input.\n");ReqName[0]='\0';}
   while (sanitise(ReqName)){ // `sanitise` runs invalidName(Name) while fixing `Name`, so it can go directly in the if.
     printf("INVALID. Try again: ");
-    fgets(ReqName,STRING_SIZE,stdin);
+    if(fgets(ReqName,STRING_SIZE,stdin)==NULL)   {fprintf(stderr,"Error reading input.\n");ReqName[0]='\0';}
     printf("\n");}
   char i=fgetc(File); // `i` will be the current character being read from the file.
   unsigned char j=0; // `j` will count the correct number of digits.
@@ -228,7 +228,7 @@ void SomeData(char file[STRING_SIZE]){
   unsigned short wrong=0;
   while (i!=EOF){
     if ('0'!=i && '1'!=i){
-      if (j!=0 && j<5){fprintf(stderr,"ERROR: `j` exceeded 0 while parsing a name.\nMaybe the file is invalid?");}
+      if (j!=0 && j<5){fprintf(stderr,"ERROR: `j` exceeded 0 while parsing a name.\nMaybe the file is invalid?\n");}
       // If `i` isn't 0 or 1, append it to the end of `CuName`.
       char *end=strchr(CuName,'\0'); // Get a pointer for the end of `CuName`
       *end=i // Set it to `i`.
@@ -246,7 +246,7 @@ void SomeData(char file[STRING_SIZE]){
         if (i=='1'){right++;}
         else if (i=='0'){wrong++;}
       j++;
-      if (j>5){fprintf(stderr,"ERROR: `j` exceeded 5.");}
+      if (j>5){fprintf(stderr,"ERROR: `j` exceeded 5.\n");}
       if (j==5){
         CuName[0]='\0';
         j=0;}}
@@ -268,16 +268,16 @@ void SomeData(char file[STRING_SIZE]){
 int selfTest(){
   int exit=0;
   if (!invalidName("")){
-    fprintf(stderr,"ERROR: \"\" wrongly recognised as valid!");
+    fprintf(stderr,"ERROR: \"\" wrongly recognised as valid!\n");
     exit=1;}
   if (!invalidName("123abc")){
-    fprintf(stderr,"ERROR: \"123abc\" wrongly recognised as valid!");
+    fprintf(stderr,"ERROR: \"123abc\" wrongly recognised as valid!\n");
     exit=1;}
   if (invalidName("abc")){
-    fprintf(stderr,"ERROR: \"abc\" wrongly recognised as invalid!");
+    fprintf(stderr,"ERROR: \"abc\" wrongly recognised as invalid!\n");
     exit=1;}
   if (!invalidName("abc0123")){
-    fprintf(stderr,"ERROR: \"abc0123\" wrongly recognised as valid!");
+    fprintf(stderr,"ERROR: \"abc0123\" wrongly recognised as valid!\n");
     exit=1;}
   struct StringArr testStrArr = StrArrInit;
   struct StringArr testStrArr2 = StrArrInit;
@@ -319,7 +319,8 @@ int main(int argc, char *argv[]){
   while (true){
     char input[STRING_SIZE]
 ;   printf("Enter: 0 to take the test, 1 to view all scores, 2 to view specific scores, 3 to quit, or 4 to change the source file: ")
-;   fgets(input, STRING_SIZE, stdin)
+    // Get user input; raising an error if fgets returns NULL.
+;   if (fgets(input, STRING_SIZE, stdin)==NULL)   {fprintf(stderr,"Error reading input.\n");input[0]='\0';}
 ;   Command=input[0]
 ;   switch (Command){
       case '0':
@@ -336,7 +337,7 @@ int main(int argc, char *argv[]){
         break;
       case '4':
         ;printf("Enter filename: ")
-        ;fgets(file, 1024, stdin)
+        ;if (fgets(file, 1024, stdin)==NULL)   {fprintf(stderr,"Error reading input.\n");return 1;}
         ;break;}
     };}
 
