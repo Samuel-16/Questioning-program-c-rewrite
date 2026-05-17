@@ -26,4 +26,4 @@ To delete the intermediate files created by the make process, run `make clean`. 
 
 # Issues
 
-- An issue from the original program is that it writes to the output file as it takes an answer to each individual question, meaning that the file becomes invalid if the program is terminated while midway through questioning. For the time being, this issue has been ported.
+- An issue from the original program is that it writes to the output file as it takes an answer to each individual question, meaning that the file becomes invalid if the program is terminated while midway through questioning. This issue has been fixed in the C code.

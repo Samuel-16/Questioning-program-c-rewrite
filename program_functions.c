@@ -8,9 +8,7 @@
 static const struct StringArr StrArrInit={.Stri="",.next=NULL};
 static const struct ByteArr ByteArrInit={.byte={0,0},.next=NULL};
 
-static inline int DEZERO(int x){
-  if (x!=0){return x;}
-  else {return 1;}}
+#define is_one(i) ((i)=='1'? 1:0) // "Return" one as an int if one as a character is passed. 
 
 bool invalidName(char Name[]){
   //Invalid if: "0"in Name or"1"in Name or Name==""
@@ -52,8 +50,7 @@ static int sanitise(char stri[]){
 
 void Addition(char file[]){
   //R=["","","","",""]
-  char R[5][STRING_SIZE];
-  //R={"","","","",""}; // DOESN'T WORK.
+  char R[5]; // Character array. NOT a string. Not null-terminated.
   //File=open(file,"a")
   FILE *File;
   File=fopen(file,"a");
@@ -73,7 +70,7 @@ void Addition(char file[]){
     printf("INVALID. Try again: ");
     if (fgets(Name,STRING_SIZE,stdin)==NULL)   {fprintf(stderr,"Error reading input.\n");Name[0]='\0';}
     printf("\n");}
-  fprintf(File,"%s",Name);
+  //fprintf(File,"%s",Name);
   //for i in range(5):
   for (unsigned char i=0;i<5;i++){
     /*No1=int(Rand()*8+1)
@@ -88,14 +85,14 @@ void Addition(char file[]){
     unsigned short int Guess;
     sscanf(Answer,"%hu", &Guess);
     // R[i]="1"if str(No1+No2)==Guess else"0"
-    if (Guess==No1+No2){strcpy(R[i],"1");}
-    else {strcpy(R[i],"0");}
-    // File.write(R[i])
-    fprintf(File,"%s",R[i]);}
+    if (Guess==No1+No2){R[i]='1';}
+    else {R[i]='0';}}
+  // File.write(R[i])
+  fprintf(File,"%s%c%c%c%c%c",Name,R[0],R[1],R[2],R[3],R[4]);
   //File.close()
   fclose(File);
   //print("You got "+str(sum(int(i)for i in R)*20)+"%.")
-  printf("You got %hu%%.\n",((atoi(R[0])+atoi(R[1])+atoi(R[2])+atoi(R[3])+atoi(R[4]))*20));}
+  printf("You got %hu%%.\n",((is_one(R[0])+is_one(R[1])+is_one(R[2])+is_one(R[3])+is_one(R[4]))*20));}
 
 
 void AllData(char file[STRING_SIZE]){
