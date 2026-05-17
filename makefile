@@ -32,4 +32,4 @@ full_clean: build final
 	rm -f build/* final/*
 	rm -d build final
 
-.PHONY: all program clean full_clean test
+.PHONY: all clean full_clean test

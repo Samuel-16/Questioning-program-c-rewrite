@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "structs.h"
 
-void Addition(char file[]);
+void Addition(char file[STRING_SIZE]);
 void AllData(char file[STRING_SIZE]);
 void SomeData(char file[STRING_SIZE]);
   
