@@ -8,7 +8,7 @@
 static const struct StringArr StrArrInit={.Stri="",.next=NULL};
 static const struct ByteArr ByteArrInit={.byte={0,0},.next=NULL};
 
-int DEZERO(int x){
+static inline int DEZERO(int x){
   if (x!=0){return x;}
   else {return 1;}}
 
@@ -40,7 +40,7 @@ struct ByteArr* scoreFromIndex(struct ByteArr *Arr,unsigned int index){
     n++;}
   return Arr;}
 
-int sanitise(char stri[]){
+static int sanitise(char stri[]){
   if (invalidName(stri)){return 1;}
   unsigned short int n=0;
   while (stri[n]!='\0'){

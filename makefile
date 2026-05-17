@@ -7,11 +7,11 @@ final:
 	mkdir -p final
 
 final/Simple\ questioning\ program: build/main.o build/program_functions.o final
-	gcc build/main.o build/program_functions.o -o final/Simple\ questioning\ program -Os -Wall -Werror
+	gcc build/main.o build/program_functions.o -o final/Simple\ questioning\ program -Os -flto -Wall -Werror
 	echo '"Simple questioning program" created in the "final" directory.'
 
 test: build/program_functions.o build/selfTest.o final
-	gcc build/selfTest.o build/program_functions.o -o final/test -Os -Wall -Werror
+	gcc build/selfTest.o build/program_functions.o -o final/test -Os -flto -Wall -Werror
 	./final/test
 	echo "Testing complete!"
 
@@ -19,10 +19,10 @@ build/main.o: main.c build
 	gcc main.c -c -o  build/main.o -Os -Wall -Werror
 
 build/program_functions.o: program_functions.c build
-	gcc program_functions.c -c -o  build/program_functions.o -Os -Wall -Werror
+	gcc program_functions.c -c -o  build/program_functions.o -Os -flto -Wall -Werror
 
 build/selfTest.o: selfTest.c build
-	gcc selfTest.c -c -o  build/selfTest.o -Os -Wall -Werror
+	gcc selfTest.c -c -o  build/selfTest.o -Os -flto -Wall -Werror
 
 clean: build final
 	rm -f build/* final/test
