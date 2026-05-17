@@ -6,7 +6,11 @@ The program displays five randomly generated simple addition questions and takes
 
 # Compiling
 
-A line of shell script has been included named `export.sh` to compile the C program and save it to the parent directory.
+To compile the full program, you can run `make` in the program directory. This will create a directory called 'final', where the final program will be saved.
+
+Run `make test` to compile and run the tests.
+
+To delete the intermediate files created by the make process, run `make clean`. To also delete the 'final' directory, you can run `make full_clean`.
 
 # Quirks of C learned
 
@@ -16,6 +20,9 @@ A line of shell script has been included named `export.sh` to compile the C prog
 - Arrays can only assigned to array variables when the array is declared. Other functions need to be used to modify an already declared array unless you go one element at a time.
 - ~~You cannot do `char nameString[255]=""`. Initialising an array with a value only allocates the space needed for that value.~~ This is incorrect. Arrays can actually be allocated a larger space than their initial value. I misunderstood an error. You can initialise an array this way with a magic number, but not a const.
 - Mixing `scanf` and `fgets` causes issues, as `scanf` leaves the newline character in stdin and causes `fgets` to immediately receive an empty string.
+- C files can be compiled into object files if they are missing definitions for functions or global variables that are nonetheless declared. These files can then be combined with other object files which *do* possess the necessary definitions to build the final executable.
+- "Make" and "Cmake" are different. Make is for automating the process of compiling multiple pieces of source code at the same time into intermediate files, which can then be merged into a single, final, executable.
+- Header files are files containing C code that do not make a full C file by themselves. They simply contain struct or keyword definitions, or declarations of undefined data, which can then be included by multiple C files, rather than be individually written in each.
 
 # Issues
 
