@@ -3,7 +3,10 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
-#include "constants.h"
+#include "structs.h"
+
+static const struct StringArr StrArrInit={.Stri="",.next=NULL};
+static const struct ByteArr ByteArrInit={.byte={0,0},.next=NULL};
 
 int DEZERO(int x){
   if (x!=0){return x;}

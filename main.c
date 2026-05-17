@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
-#include "constants.h"
+#include "structs.h"
 
 void Addition(char file[]);
 void AllData(char file[STRING_SIZE]);

@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <assert.h>
-#include "constants.h"
+#include "structs.h"
 
 bool invalidName(char Name[]);
 unsigned int inStArr(struct StringArr *Arr, char i[]);
@@ -21,9 +21,9 @@ int selfTest(){
   if (!invalidName("abc0123")){
     fprintf(stderr,"ERROR: \"abc0123\" wrongly recognised as valid!\n");
     exit=1;}
-  struct StringArr testStrArr = StrArrInit;
-  struct StringArr testStrArr2 = StrArrInit;
-  struct StringArr testStrArr3 = StrArrInit;
+  struct StringArr testStrArr = {0};
+  struct StringArr testStrArr2 = {0};
+  struct StringArr testStrArr3 = {0};
   strcpy(testStrArr.Stri,"Bob");
   strcpy(testStrArr2.Stri,"May");
   strcpy(testStrArr3.Stri,"Keri");
